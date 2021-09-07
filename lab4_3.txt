@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<pthread.h>
+
+void * runner(void * n)
+{
+    printf("\nChild Thread\n");
+    long int nn=(long)n;
+    long int sum=0;
+    int i;
+    for(i=0;i<=nn;i++) sum=sum+i;
+    return (void *) sum;
+}
+int main()
+{
+    void *sum1,*sum2;
+
+    pthread_t tid,tid2;
+    pthread_create(&tid,NULL,&runner,(void *)3);
+    pthread_create(&tid2,NULL,&runner,(void *)4);
+    printf("\nMain thread\n");
+
+    pthread_join(tid,&sum1);
+    pthread_join(tid2,&sum2);
+
+    printf("%ld\n",(long)sum1);
+    printf("%ld\n",(long)sum2);
+
+    return 0;
+}
